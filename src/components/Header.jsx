@@ -6,7 +6,7 @@ const Header = () => {
   return (
     <header
       className="flex justify-between items-center
-        p-5 bg-white shadow-lg fixed top-0 left-0 right-0"
+        p-5 bg-white shadow-md fixed top-0 left-0 right-0"
     >
       <Link
         to="/"
