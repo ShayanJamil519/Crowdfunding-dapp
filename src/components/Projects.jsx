@@ -3,10 +3,10 @@ import Identicons from "react-identicons";
 import { FaEthereum } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
-const ProjectCard = ({ card, id }) => {
+const ProjectCard = ({ project, id }) => {
   return (
     <div id="projects" className="rounded-md shadow-md bg-white w-64 m-4">
-      <Link to={"/projects/" + "project.id"}>
+      <Link to={"/projects/" + id}>
         <img
           src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR26t6qRz-jzwIe6uQrWXeGwZ-HMv-PRK-Zhg&usqp=CAU"
           alt="image"
@@ -69,7 +69,9 @@ const Projects = () => {
         {Array(6)
           .fill()
           .map((card, i) => (
-            <ProjectCard key={i}>Card </ProjectCard>
+            <ProjectCard key={i} id={i} project={card}>
+              Card{" "}
+            </ProjectCard>
           ))}
       </div>
     </div>
