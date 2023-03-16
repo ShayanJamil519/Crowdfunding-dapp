@@ -1,10 +1,12 @@
 import React from "react";
+import ProjectBackers from "../components/ProjectBackers";
 import ProjectDetails from "../components/ProjectDetails";
 
 const Project = () => {
   return (
     <>
       <ProjectDetails />
+      <ProjectBackers />
     </>
   );
 };
