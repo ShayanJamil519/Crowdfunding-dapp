@@ -1,4 +1,5 @@
 import React from "react";
+import CreateProject from "../components/CreateProject";
 import Hero from "../components/Hero";
 import Projects from "../components/Projects";
 
@@ -17,6 +18,7 @@ const Home = () => {
           Load More
         </button>
       </div>
+      <CreateProject />
     </div>
   );
 };

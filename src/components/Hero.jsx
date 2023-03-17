@@ -1,3 +1,5 @@
+import { setGlobalState } from "../store";
+
 // import { setGlobalState, useGlobalState } from '../store'
 const Hero = () => {
   //   const [stats] = useGlobalState("stats");
@@ -18,7 +20,7 @@ const Hero = () => {
           className="inline-block px-8 py-3 bg-green-600
         text-white font-medium text-md leading-tight uppercase
         rounded-full shadow-md hover:bg-green-700"
-          //   onClick={() => setGlobalState('createModal', 'scale-100')}
+          onClick={() => setGlobalState("createModal", "scale-100")}
         >
           Add Project
         </button>
