@@ -1,6 +1,10 @@
 import moment from "moment";
 import { createGlobalState } from "react-hooks-global-state";
 
+// setGlobalState =>  to set state
+// useGlobalState =>  to use state
+// getGlobalState =>  to
+
 const { setGlobalState, useGlobalState, getGlobalState } = createGlobalState({
   createModal: "scale-0",
   updateModal: "scale-0",

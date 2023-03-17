@@ -1,6 +1,7 @@
 import React from "react";
 import { FaEthereum } from "react-icons/fa";
 import Identicons from "react-identicons";
+import { setGlobalState } from "../store";
 
 const ProjectDetails = () => {
   return (
@@ -74,7 +75,7 @@ const ProjectDetails = () => {
                 className="inline-block px-8 py-3 bg-green-600
         text-white font-medium text-md leading-tight uppercase
         rounded-full shadow-md hover:bg-green-700"
-                //   onClick={() => setGlobalState('createModal', 'scale-100')}
+                onClick={() => setGlobalState("backModal", "scale-100")}
               >
                 Back Project
               </button>
@@ -84,7 +85,7 @@ const ProjectDetails = () => {
                 className="inline-block px-8 py-3 bg-gray-600
         text-white font-medium text-md leading-tight uppercase
         rounded-full shadow-md hover:bg-green-700"
-                //   onClick={() => setGlobalState('createModal', 'scale-100')}
+                onClick={() => setGlobalState("updateModal", "scale-100")}
               >
                 Edit
               </button>
@@ -94,7 +95,7 @@ const ProjectDetails = () => {
                 className="inline-block px-8 py-3 bg-red-600
         text-white font-medium text-md leading-tight uppercase
         rounded-full shadow-md hover:bg-green-700"
-                //   onClick={() => setGlobalState('createModal', 'scale-100')}
+                onClick={() => setGlobalState("deleteModal", "scale-100")}
               >
                 Delete
               </button>
