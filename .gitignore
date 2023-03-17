@@ -23,3 +23,13 @@ dist-ssr
 *.sln
 *.sw?
 .env
+
+# testing
+/coverage
+coverage
+coverage.json
+
+
+#Hardhat files
+cache
+artifacts
