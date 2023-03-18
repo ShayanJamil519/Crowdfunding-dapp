@@ -18,7 +18,7 @@ module.exports = {
     },
   },
   paths: {
-    sources: './src/contracts',
+    sources: './contracts',
     artifacts: './src/abis',
   },
   mocha: {
