@@ -78,21 +78,21 @@ contract  BoostMeUp{
 
 
     // Functions
-    function createProject(string memory title, string memory description, string memory imageURL, uint256 cost, uint256 expiresAt) public returns(bool){
-        require(bytes(title).length>0, "Title cannot be empty");
-        require(bytes(description).length>0, "Description cannot be empty");
-        require(bytes(imageURL).length>0, "ImageURL cannot be empty");
-        require(cost > 0 ether, "Cost cannot be zero");
+    function createProject(string memory _title, string memory _description, string memory _imageURL, uint256 _cost, uint256 _expiresAt) public returns(bool){
+        require(bytes(_title).length>0, "Title cannot be empty");
+        require(bytes(_description).length>0, "Description cannot be empty");
+        require(bytes(_imageURL).length>0, "ImageURL cannot be empty");
+        require(_cost > 0 ether, "Cost cannot be zero");
 
         projectStruct memory project;
         project.id = projectCount;
         project.owner = msg.sender;
-        project.title = title;
-        project.description = description;
-        project.imageURL = imageURL;
-        project.cost = cost;
+        project.title = _title;
+        project.description = _description;
+        project.imageURL = _imageURL;
+        project.cost = _cost;
         project.timestamp = block.timestamp;
-        project.expiresAt = expiresAt;
+        project.expiresAt = _expiresAt;
 
         projects.push(project);
         projectExist[projectCount] = true;
@@ -103,6 +103,22 @@ contract  BoostMeUp{
 
         return true;
 
+    }
+
+    function updateProject(uint256 _id, string memory _title, string memory _description, string memory _imageURL, uint256 _expiresAt) public returns(bool){
+        require(msg.sender == projects[_id].owner, "Unauthorized: You cannot update this project");
+        require(bytes(_title).length > 0, "Title cannot be empty");
+        require(bytes(_description).length>0, "Description cannot be empty");
+        require(bytes(_imageURL).length>0, "ImageURL cannot be empty");
+
+        projects[_id].title = _title;
+        projects[_id].description = _description;
+        projects[_id].imageURL  = _imageURL;
+        projects[_id].expiresAt  = _expiresAt;
+
+        emit Action(_id, "PROJECT UPDATED", msg.sender, block.timestamp);
+
+        return true;
 
 
 
