@@ -66,7 +66,7 @@ contract  BoostMeUp{
     event Action(
         uint256 id,
         string actionType,
-        string indexed executor,
+        address indexed executor,
         uint256 timestamp
     );
 
@@ -74,6 +74,38 @@ contract  BoostMeUp{
     constructor(uint256 _projectTax){
         owner = msg.sender;
         projectTax = _projectTax;
+    }
+
+
+    // Functions
+    function createProject(string memory title, string memory description, string memory imageURL, uint256 cost, uint256 expiresAt) public returns(bool){
+        require(bytes(title).length>0, "Title cannot be empty");
+        require(bytes(description).length>0, "Description cannot be empty");
+        require(bytes(imageURL).length>0, "ImageURL cannot be empty");
+        require(cost > 0 ether, "Cost cannot be zero");
+
+        projectStruct memory project;
+        project.id = projectCount;
+        project.owner = msg.sender;
+        project.title = title;
+        project.description = description;
+        project.imageURL = imageURL;
+        project.cost = cost;
+        project.timestamp = block.timestamp;
+        project.expiresAt = expiresAt;
+
+        projects.push(project);
+        projectExist[projectCount] = true;
+        projectsOf[msg.sender].push(project);
+        stats.totalProjects += 1;
+
+        emit Action(projectCount++, "PROJECT CREATED", msg.sender, block.timestamp);
+
+        return true;
+
+
+
+
     }
 
 
