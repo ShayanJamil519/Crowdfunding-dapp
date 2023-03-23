@@ -100,13 +100,11 @@ contract  BoostMeUp{
         stats.totalProjects += 1;
 
         emit Action(projectCount++, "PROJECT CREATED", msg.sender, block.timestamp);
-
         return true;
-
     }
 
     function updateProject(uint256 _id, string memory _title, string memory _description, string memory _imageURL, uint256 _expiresAt) public returns(bool){
-        require(msg.sender == projects[_id].owner, "Unauthorized: You cannot update this project");
+        require(msg.sender == projects[_id].owner, "Unauthorized: You are not the owner of this project");
         require(bytes(_title).length > 0, "Title cannot be empty");
         require(bytes(_description).length>0, "Description cannot be empty");
         require(bytes(_imageURL).length>0, "ImageURL cannot be empty");
@@ -117,12 +115,41 @@ contract  BoostMeUp{
         projects[_id].expiresAt  = _expiresAt;
 
         emit Action(_id, "PROJECT UPDATED", msg.sender, block.timestamp);
-
         return true;
-
-
-
     }
+
+    function deleteProject(uint256 _id) public returns(bool){
+        require(projects[_id].status == statusEnum.OPEN, "Project no longer opened");
+        require(msg.sender == projects[_id].owner, "Unauthorized: You are not the owner of this project");
+
+        projects[_id].status = statusEnum.DELETED;
+
+        performRefund(_id);
+
+        stats.totalProjects -= 1;
+
+        emit Action(_id, "PROJECT DELETED", msg.sender, block.timestamp);
+        return true;
+    }
+
+
+    function performRefund(uint256 _id) internal{
+        for(uint256 i = 0; i < backersOf[_id].length; i++){
+            address _owner = backersOf[_id][i].owner;
+            uint256 _contribution = backersOf[_id][i].contribution;
+
+            backersOf[_id][i].refunded = true;
+            backersOf[_id][i].timestamp= block.timestamp;
+
+            (bool success, ) = payable(_owner).call{value:_contribution}("");
+            require(success);
+
+            stats.totalBacking -= 1;
+            stats.totalDonations -= _contribution;
+        }
+    }
+
+    
 
 
 
