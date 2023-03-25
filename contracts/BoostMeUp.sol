@@ -11,7 +11,7 @@ contract  BoostMeUp{
     uint256 public projectCount;
     uint256 public balance;   // contract balance
     statsStruct public stats;
-    projectStruct[] projects;
+    projectStruct[] projects; // projects : array of projectStructs => [projectStruct, projectStruct, ...]
 
 
     // Mappings
@@ -229,18 +229,25 @@ contract  BoostMeUp{
 
     }
 
+    function changeTax(uint256 _taxPercentage) public ownerOnly{
+        projectTax = _taxPercentage;
+    }
 
-    
+    // Getters
+    function getProject(uint256 _id) public view returns(projectStruct memory){
+        require(projectExist[_id], "Project doesn't exists");
 
+        return projects[_id];
+    }
 
+    function getProjects() public view returns (projectStruct[] memory){
+        return projects;
+    }
 
-     
+    function getBackers(uint256 _id) public view returns(backerStruct[] memory ){
+        return backersOf[_id];
+    }
 
-
-
-
-
-    
 
 
 
