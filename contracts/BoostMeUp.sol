@@ -219,6 +219,16 @@ contract  BoostMeUp{
         return true;
     }
 
+    function payOutProject(uint256 _id) public returns(bool){
+        require(projects[_id].status == statusEnum.APPROVED, "Project not Approved");
+        require(msg.sender == projects[_id].owner || msg.sender == owner, "Unauthorized: You are not the owner of this project");
+
+        performPayout(_id);
+
+        return true;
+
+    }
+
 
     
 
