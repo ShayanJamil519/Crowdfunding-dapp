@@ -209,6 +209,21 @@ contract  BoostMeUp{
 
     }
 
+    function requestRefund(uint256 _id) public returns(bool){
+        require(projects[_id].status != statusEnum.REVERTED || projects[_id].status != statusEnum.DELETED, "Project is Reverted or Deleted already");
+
+        projects[_id].status = statusEnum.REVERTED;
+
+        performRefund(_id);
+
+        return true;
+    }
+
+
+    
+
+
+
      
 
 
