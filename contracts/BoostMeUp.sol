@@ -6,10 +6,10 @@ pragma solidity ^0.8.7;
 contract  BoostMeUp{
 
     // State Variables
-    address public owner;
+    address public owner;     // contract owner
     uint256 public projectTax;
     uint256 public projectCount;
-    uint256 public balance;
+    uint256 public balance;   // contract balance
     statsStruct public stats;
     projectStruct[] projects;
 
@@ -148,6 +148,72 @@ contract  BoostMeUp{
             stats.totalDonations -= _contribution;
         }
     }
+
+
+    function backProject(uint256 _id) public payable returns(bool){
+        require(msg.value > 0 ether, "Ether must be greater than 0");
+        require(projectExist[_id], "Project Not Found");
+        require(projects[_id].status == statusEnum.OPEN, "Project no longer opened");
+
+        stats.totalBacking += 1;
+        stats.totalDonations += msg.value;
+        projects[_id].raised += msg.value;
+        projects[_id].backers += 1;
+
+        backersOf[_id].push(backerStruct(msg.sender, msg.value, block.timestamp, false));
+
+        emit Action(_id, "PROJECT BACKED", msg.sender, block.timestamp);
+
+        
+        // Assigning Project's Status Based on Amount Raised
+
+        if(projects[_id].raised >= projects[_id].cost){
+            projects[_id].status = statusEnum.APPROVED;
+            balance += projects[_id].raised;
+
+            performPayout(_id);
+
+            return true;
+        }
+
+         if(block.timestamp >= projects[_id].expiresAt) {
+            projects[_id].status = statusEnum.REVERTED;
+
+            performRefund(_id);
+
+            return true;
+        }
+
+        return true;
+    }
+
+    function performPayout(uint256 _id) internal{
+        uint256 raised = projects[_id].raised;
+        uint256 tax = (raised * projectTax) / 100 ;    // %age Tax
+
+        projects[_id].status = statusEnum.PAIDOUT;
+
+            // Paying Amount(tax deducted) To Project Owner
+            (bool success, ) = payable(projects[_id].owner).call{value:(raised - tax )}("");
+            require(success, "Failed to transfer funds to project owner");
+
+            // Paying Amount(tax) To Contract Owner
+            (success, ) = payable(owner).call{value:tax}("");
+            require(success, "Failed to transfer funds to contract owner");
+
+            // Updating Contract Balance
+            balance -= projects[_id].raised;
+
+            emit Action (_id, "PROJECT PAID OUT", msg.sender, block.timestamp
+        );
+
+    }
+
+     
+
+
+
+
 
     
 
