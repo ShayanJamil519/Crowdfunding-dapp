@@ -45,7 +45,7 @@ module.exports = {
   },
 
   gasReporter: {
-    enabled: true,
+    enabled: false,
     currency: "USD",
     noColors: false,
     coinmarketcap: COINMARKETCAP_API_KEY,
@@ -54,13 +54,13 @@ module.exports = {
     deployer: {
       default: 0,
     },
-    address1: {
+    backer1: {
       default: 1,
     },
-    address2: {
+    backer2: {
       default: 2,
     },
-    address3: {
+    backer3: {
       default: 3,
     },
   },

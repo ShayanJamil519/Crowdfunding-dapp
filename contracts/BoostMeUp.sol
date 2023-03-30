@@ -74,8 +74,8 @@ contract  BoostMeUp{
         string imageURL;
         uint256 cost;    // amount required for a project
         uint256 raised;  // amount actually raised
-        uint256 timestamp;
-        uint256 expiresAt;
+        uint256 timestamp;  // when project was created
+        uint256 expiresAt;  // when project will expire
         uint256 backers;
         statusEnum status;
     }
@@ -146,8 +146,9 @@ contract  BoostMeUp{
         projectExist[projectCount] = true;
         projectsOf[msg.sender].push(project);
         stats.totalProjects += 1;
+        projectCount += 1;
 
-        emit Action(projectCount++, "PROJECT CREATED", msg.sender, block.timestamp);
+        emit Action(projectCount, "PROJECT CREATED", msg.sender, block.timestamp);
         return true;
     }
 
